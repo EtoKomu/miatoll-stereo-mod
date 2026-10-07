@@ -1,0 +1,28 @@
+#!/sbin/sh
+OUTFD=$2
+ZIPFILE=$3
+
+ui_print() {
+  echo "$1"
+}
+
+ui_print "****************************************"
+ui_print "*     Miatoll Stereo Mod v1.0          *"
+ui_print "*      Redmi Note 9 Pro / 9S           *"
+ui_print "****************************************"
+
+MODPATH="/data/adb/modules/miatoll_stereo"
+rm -rf "$MODPATH"
+mkdir -p "$MODPATH"
+
+ui_print "- Extracting module files..."
+unzip -o "$ZIPFILE" -x 'META-INF/*' -d "$MODPATH" >/dev/null 2>&1
+
+chmod 755 "$MODPATH"
+chmod -R 755 "$MODPATH/system"
+find "$MODPATH/system" -type f -exec chmod 644 {} +
+chmod 644 "$MODPATH/module.prop"
+
+ui_print "- Installation successful!"
+ui_print "- Please reboot your device."
+exit 0
